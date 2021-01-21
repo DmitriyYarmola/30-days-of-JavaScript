@@ -11,6 +11,7 @@ const codes = [
     { lowerKeyCode: 75, upperKeyCode: 107,name: 'K', sound: `${baseURL}/tom.wav`, soundName: 'TOM' },
     { lowerKeyCode: 76, upperKeyCode: 108,name: 'L', sound: `${baseURL}/tink.wav`, soundName: 'TINK' },
 ]
+const activeClass = 'active'
 
 const app = document.getElementById('app')
 
@@ -19,11 +20,13 @@ const generateAudio = (url) => new Audio(url)
 
 const generateKeys = () => {
     const keysWrapper = generateDivElement()
-    codes.forEach(({lowerKeyCode, name, soundName}) => {
+    codes.forEach(({lowerKeyCode, name, soundName, upperKeyCode}) => {
 
         const key = generateDivElement()
         key.className = 'key'
         key.dataset.key = lowerKeyCode
+        key.dataset.mainKeyUpper = upperKeyCode
+        key.dataset.mainKeyLower = lowerKeyCode
 
         const keyName= generateDivElement()
         keyName.dataset.key = lowerKeyCode
@@ -58,9 +61,21 @@ generateAudios()
 
 const findAudioTagLowerLetter = (key) => document.querySelector(`[data-sound-lower-key="${key}"]`)
 const findAudioTagUpperLetter = (key) => document.querySelector(`[data-sound-upper-key="${key}"]`)
+const findButtonTagLowerLetter = (key) => document.querySelector(`[data-main-key-upper="${key}"]`)
+const findButtonTagUpperLetter = (key) => document.querySelector(`[data-main-key-lower="${key}"]`)
+
+const setAndRemoveActiveClass = (target) => {
+    target.classList.add(activeClass)
+    setTimeout(() => {
+        target.classList.remove(activeClass)
+    }, 200)
+}
 
 window.addEventListener('click', element => {
-    const keyCode = element.target.dataset.key
+    const target = element.target
+    const keyCode = target.dataset.key
+    const button = findButtonTagUpperLetter(keyCode) || findButtonTagLowerLetter(keyCode)
+    setAndRemoveActiveClass(button)
     const audio = findAudioTagLowerLetter(keyCode)
     if(!audio) return
     audio.play()
@@ -69,8 +84,9 @@ window.addEventListener('click', element => {
 
 window.addEventListener('keypress', element => {
     const keyCode = element.charCode
-    console.log(keyCode);
-    const audio = keyCode <= 90 ? findAudioTagLowerLetter(keyCode) : findAudioTagUpperLetter(keyCode)
+    const button = findButtonTagUpperLetter(keyCode) || findButtonTagLowerLetter(keyCode)
+    setAndRemoveActiveClass(button)
+    const audio = findAudioTagLowerLetter(keyCode) || findAudioTagUpperLetter(keyCode)
     if(!audio) return
     audio.play()
     audio.currentTime = 0
