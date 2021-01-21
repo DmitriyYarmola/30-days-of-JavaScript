@@ -25,8 +25,8 @@ const generateKeys = () => {
         const key = generateDivElement()
         key.className = 'key'
         key.dataset.key = lowerKeyCode
-        key.dataset.mainKeyUpper = upperKeyCode
-        key.dataset.mainKeyLower = lowerKeyCode
+        key.dataset.mainUpperKey = upperKeyCode
+        key.dataset.mainLowerKey = lowerKeyCode
 
         const keyName= generateDivElement()
         keyName.dataset.key = lowerKeyCode
@@ -61,8 +61,8 @@ generateAudios()
 
 const findAudioTagLowerLetter = (key) => document.querySelector(`[data-sound-lower-key="${key}"]`)
 const findAudioTagUpperLetter = (key) => document.querySelector(`[data-sound-upper-key="${key}"]`)
-const findButtonTagLowerLetter = (key) => document.querySelector(`[data-main-key-upper="${key}"]`)
-const findButtonTagUpperLetter = (key) => document.querySelector(`[data-main-key-lower="${key}"]`)
+const findButtonTagLowerLetter = (key) => document.querySelector(`[data-main-upper-key="${key}"]`)
+const findButtonTagUpperLetter = (key) => document.querySelector(`[data-main-lower-key="${key}"]`)
 
 const setAndRemoveActiveClass = (target) => {
     target.classList.add(activeClass)
