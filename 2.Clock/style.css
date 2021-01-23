@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    height: 100vh;
+    background: #e5e8dd;
+}
+
+.clock {
+    background: url("./images/clock-bacgrkound.png") center no-repeat;
+    height: 100%;
+}
